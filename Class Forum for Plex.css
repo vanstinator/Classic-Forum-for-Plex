@@ -1,5 +1,6 @@
 @-moz-document domain("forums.plex.tv") {
-html, body {background-color: #323232}
+html, body, body.thumbnail {background-color: #323232;}
+body.thumbnail {color: #F2F2F2}
 nav.navbar-default .navbar-nav>li>a {color: #F2F2F2}
 nav.navbar.navbar-default {background-color: #222; border: 0px}
 div.container-fluid div.row {max-width: none;}
@@ -28,9 +29,9 @@ div.PageControls a.Next {background-color: #F2F2F2; border: #323232; color: #ff8
 .ItemContent.Category {color: #F2F2F2 !important}
 .DataList .Item {border: 1px solid #323232; background-color: #F2F2F2;}
 .Discussions .Item {opacity:0.8}
-.Discussions .Unread,.Discussions .New {opacity:1}
+.Discussions .Unread,.Discussions .New {opacity:/*[[opacity]]*/}
 .CategoryList .Item {opacity:0.8}
-.CategoryList .Unread,.Discussions .New {opacity:1}
+.CategoryList .Unread,.Discussions .New {opacity:/*[[opacity]]*/}
 .DataList .Item a {color: #5F5F5F !important}
 .DataList .Item .AuthorWrap a {color: #F2F2F2 !important}
 .DataList .Item .Signature a {color: #ff8a00 !important}
@@ -100,7 +101,7 @@ div.Box.Tags {display:/*[[tagfilter]]*/}
 div.WhosOnline {display:/*[[onlinefilter]]*/}
 
 .ProfilePhoto, .Discussion .Author .ProfilePhoto, body.Rank-Employee .MeBox .ProfilePhoto { border-radius: /*[[photoradius]]*/ !important; }
-.Online .Author .PhotoWrap {padding:3px; background-color:/*[[onlinecolor]]*/}
+/*.Online .Author .PhotoWrap {padding:3px; background-color:/*[[onlinecolor]]*/}*/
 
 .bodybox-wrap {background-color:#F2F2F2; padding:8px; border-radius:5px}
 .editor {background-color:#F2F2F2; color:#777}
@@ -108,6 +109,32 @@ div.FormWrapper{color:#F2F2F2}
 
 .Breadcrumbs {border:0px}
 .well.search-form {border:0px}
+.Item-Search .Breadcrumbs {background-color:#F2F2F2 !important}
+.Item-Search .Breadcrumbs .CrumbLabel a {color:#777 !important; }
+.Item-Search .Breadcrumbs .CrumbLabel {background:rgba(0,0,0,0.05) !important}
 
 div.Message p, div.Message {font-size:/*[[textsize]]*/%;}
+
+/*Thumbnail page breadcrumbs*/
+body.thumbnail div.container-fluid span.Breadcrumbs {border:0px; padding: 20px 10px 20px 10px}
+
+/* Text Online indicator - modified from MovieFan's stylesheet */
+/*[[onlineInd]]*/
+div.Item-Body.Media div.Summary {color: #777}
+div.Item-Body.Media div.Summary mark {color: #ccc; background: #777}
+div.Item-Body.Media span.CrumbLabel {background: #777; padding: 0px 30px 0px 10px}
+div.AuthorWrap a.PhotoWrap.Online:after {content: "Online"; text-align:center; font-weight: normal; color: /*[[onlinecolor]]*/; display: block; padding-top: 3px;}
+.Section-Discussion .Role_PlexPass .MItem.RoleTitle {top: 68px;}
+
+/* Section reserved for custom elements created by javascript plugins */
+.CustSkin-LeftDiscussionColumn {float:left; width:75%;padding-top:0px}
+.CustSkin-RightDiscussionColumn {float:right; width:25%; padding-top:0px}
+
+.CustSkin-PhotoWrap .ProfilePhoto {vertical-align:middle; float:left !important; padding:2px; background-color:#777}
+.CustSkin-RightDiscussionColumn .Discussion.ItemContent {display:inline-flex; padding-left:10px}
+.CustSkin-LatestCommenter .MItem {display:block; padding-left:5px}
+
+.CustSkin-Remove {display:none}
+.CustSkin-ItemContent {padding-left:0px !important}
+.CustSkin-Tag {margin-right:3px}
 }
