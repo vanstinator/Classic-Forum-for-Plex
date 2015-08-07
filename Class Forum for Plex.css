@@ -25,13 +25,13 @@ div.PageControls a.Previous {background-color: #777; border: #323232; color: #ff
 .NumberedPager div.QuickSearch a {background-color: #F2F2F2}
 div.PageControls a.Next {background-color: #F2F2F2; border: #323232; color: #ff8a00}
 
-.CategoryHeading {background: #5F5F5F !important}
+.CategoryHeading {background: #5F5F5F !important; position:relative; z-index:800}
 .ItemContent.Category {color: #F2F2F2 !important}
 .DataList .Item {border: 1px solid #323232; background-color: #F2F2F2;}
 .Discussions .Item {opacity:0.8}
-.Discussions .Unread,.Discussions .New {opacity:/*[[opacity]]*/}
+.Discussions .Unread,.Discussions .New {opacity:.9}
 .CategoryList .Item {opacity:0.8}
-.CategoryList .Unread,.Discussions .New {opacity:/*[[opacity]]*/}
+.CategoryList .Unread,.Discussions .New {opacity:.9}
 .DataList .Item a {color: #5F5F5F !important}
 .DataList .Item .AuthorWrap a {color: #F2F2F2 !important}
 .DataList .Item .Signature a {color: #ff8a00 !important}
@@ -70,9 +70,10 @@ div.Meta.DiscussionMeta {color: #ccc}
 div.Meta.DiscussionMeta .DateCreated a {color: #F2F2F2 !important}
 div.Meta.Meta-Discussion .MItem.Category a {color:#777 !important}
 div.Item-BodyWrap {background-color: #F2F2F2}
-div.Meta.CommentMeta.CommentInfo a {color: #F2F2F2 !Important}
+.CommentsWrap .Meta.CommentMeta.CommentInfo a {color: #F2F2F2 !important}
 ul.AcceptedAnswers .Item.QnA-Item-Accepted .Item-Header a {color: #777}
 ul.AcceptedAnswers .Item.QnA-Item-Accepted .AuthorWrap a {color: #777 !important}
+ul.AcceptedAnswers .MItem a {color: #777 !important}
 
 div.Form-BodyWrap {background-color: #F2F2F2}
 div.Form-BodyWrap div.Buttons {background-color: #F2F2F2; border-top: 10px solid #323232}
@@ -126,13 +127,33 @@ div.Item-Body.Media span.CrumbLabel {background: #777; padding: 0px 30px 0px 10p
 div.AuthorWrap a.PhotoWrap.Online:after {content: "Online"; text-align:center; font-weight: normal; color: /*[[onlinecolor]]*/; display: block; padding-top: 3px;}
 .Section-Discussion .Role_PlexPass .MItem.RoleTitle {top: 68px;}
 
+/* Correct colors of side menus on Profile edit pages */
+.SideMenu .PanelInfo li a {border-width: 0px; color: #777; background-color: #222 !important;}
+.SideMenu .PanelInfo li.Active a {color: #F2F2F2 !important; background-color: #FF8A00 !important;}
+
+/* Section controls the coloring of #F2F2F2 text */
+/*Edit profile*/
+.Box.BadgeGrid h4 {color:#F2F2F2 !important}
+.SmallPopup {color:#F2F2F2}
+.connections h2 {color:#F2F2F2}
+.connections .Hero h3, .connections .Hero p {color:#F2F2F2}
+.online {color:#F2F2F2}
+.quotes {color:#F2F2F2}
+.signature {color:#F2F2F2}
+.preferences h2 {color:#F2F2F2}
+table.PreferenceGroup {background-color:#F2F2F2} 
+
 /* Section reserved for custom elements created by javascript plugins */
 .CustSkin-LeftDiscussionColumn {float:left; width:75%;padding-top:0px}
 .CustSkin-RightDiscussionColumn {float:right; width:25%; padding-top:0px}
+.Email {color:#F2F2F2}
 
-.CustSkin-PhotoWrap .ProfilePhoto {vertical-align:middle; float:left !important; padding:2px; background-color:#777}
+.CustSkin-PhotoWrap .ProfilePhoto {vertical-align:middle; float:left !important; padding:1px; background-color:#777}
 .CustSkin-RightDiscussionColumn .Discussion.ItemContent {display:inline-flex; padding-left:10px}
-.CustSkin-LatestCommenter .MItem {display:block; padding-left:5px}
+.CustSkin-LatestCommenter .MItem {display:block;}
+
+.CustSkin-LatestCommenter {float:left; padding-top:1px !important; padding-left:5px}
+.CustSkin-PhotoWrap {display:block !important; padding-top: 20px}
 
 .CustSkin-Remove {display:none}
 .CustSkin-ItemContent {padding-left:0px !important}
