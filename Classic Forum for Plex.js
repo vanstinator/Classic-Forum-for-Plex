@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Classic Forum for Plex
 // @namespace    forums.plex.tv
-// @version      0.2
+// @version      0.3
 // @description  The JavaScript portion of the skin. Find the CSS portion at https://userstyles.org/styles/117161/classic-forum-for-plex
 // @author       Justin Vanderhooft
 // @match        forums.plex.tv/*
