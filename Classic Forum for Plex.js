@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Classic Forum for Plex
 // @namespace    forums.plex.tv
-// @version      0.3
+// @version      0.6
 // @description  The JavaScript portion of the skin. Find the CSS portion at https://userstyles.org/styles/117161/classic-forum-for-plex
 // @author       Justin Vanderhooft
 // @match        forums.plex.tv/*
 // @grant        none
+// @downlodURL   https://greasyfork.org/scripts/11407-classic-forum-for-plex/code/Classic%20Forum%20for%20Plex.user.js
 // ==/UserScript==
 
 //Variables used by everything
@@ -14,7 +15,6 @@ buildCache();
 setCustomClasses();
 layoutDiscussionDOM();
 layoutCategoryDOM();
-
 
 
 /*var commentElements = document.getElementsByClassName('Item ItemComment Online');
@@ -27,6 +27,7 @@ for(var i = 0; i < commentElements.length; i++)
 }*/
 
 function setCustomClasses() {
+    var script = document.getElementsByClassName('ItemDiscussion');
     var discussionElements = document.getElementsByClassName('ItemDiscussion');
     for(var i = 0; i < discussionElements.length; i++) {
         var photo = discussionElements[i].getElementsByClassName('IndexPhoto PhotoWrap')[0];
@@ -37,7 +38,7 @@ function setCustomClasses() {
 }
 
 function layoutDiscussionDOM() {
-    if(document.location.pathname.startsWith('/categories',0)) {
+    if(document.location.pathname.startsWith('/categories/',0)) {
         var discussionElements = document.getElementsByClassName('ItemDiscussion');
         for(var i = 0; i < discussionElements.length; i++) {
             var title = discussionElements[i].getElementsByClassName('Title')[0];
@@ -68,11 +69,17 @@ function layoutDiscussionDOM() {
             $(photo).appendTo(leftCol);
             $(options).appendTo(rightCol);
 
-            try {
-                var lastCommentedUsername = lastComment.getElementsByTagName('a')[0].text;
-                $("<a title="+lastCommentedUsername+ " href=\"/profile/"+lastCommentedUsername+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\""+localstorage[lastCommentedUsername]+"\" alt=\""+lastCommentedUsername+"\" class=\"ProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
+            try {   
+                var username = lastComment.getElementsByTagName('a')[0].text
+                var image = localstorage[username];
+                if(image == undefined) {
+                    $("<a title="+username+ " href=\"/profile/"+username+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\"http://res.cloudinary.com/dnf4z4krv/image/upload/c_scale,w_48/v1438946227/plex-logo_hpqjpc.jpg\" alt=\""+username+"\" class=\"ProfilePhoto CustSkin-ProfilePhoto CustSkin-DefaultProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
+                    console.log("no image for this user displaying default instead: " + username);   
+                } else {
+                    $("<a title="+username+ " href=\"/profile/"+username+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\""+localstorage[username]+"\" alt=\""+username+"\" class=\"ProfilePhoto CustSkin-ProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
+                }
             } catch (e) {
-                console.log("no image for this user");   
+
             }
 
             $("<div class=\"ItemContent Discussion CustSkin-ItemContent\"><\div>").appendTo(leftCol);
@@ -108,7 +115,7 @@ function layoutDiscussionDOM() {
 }
 
 function layoutCategoryDOM() {
-    if(document.location.pathname == '/') {
+    if(document.location.pathname == '/' || document.location.pathname == '/categories') {
         var categoryElements = document.getElementsByClassName('Item');
         for(var i = 0; i < categoryElements.length; i++) {
             if(!$(categoryElements[i]).hasClass('CategoryHeading')) {
@@ -134,10 +141,17 @@ function layoutCategoryDOM() {
                 $(options).appendTo(rightCol);
 
                 try {   
-                    var lastCommentedUsername = lastDiscussionTitle.getElementsByTagName('a')[1].text;
-                    $("<a title="+lastCommentedUsername+ " href=\"/profile/"+lastCommentedUsername+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\""+localstorage[lastCommentedUsername]+"\" alt=\""+lastCommentedUsername+"\" class=\"ProfilePhoto CustSkin-ProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
+
+                    var username = lastDiscussionTitle.getElementsByTagName('a')[1].text
+                    var image = localstorage[username];
+                    if(image == undefined) {
+                        $("<a title="+username+ " href=\"/profile/"+username+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\"http://res.cloudinary.com/dnf4z4krv/image/upload/c_scale,w_48/v1438946227/plex-logo_hpqjpc.jpg\" alt=\""+username+"\" class=\"ProfilePhoto CustSkin-ProfilePhoto CustSkin-DefaultProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
+                        console.log("no image for this user displaying default instead: " + username);   
+                    } else {
+                        $("<a title="+username+ " href=\"/profile/"+username+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\""+localstorage[username]+"\" alt=\""+username+"\" class=\"ProfilePhoto CustSkin-ProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
+                    }
                 } catch (e) {
-                    console.log("no image for this user: " + lastCommentedUsername);   
+
                 }
 
                 $("<div class=\"ItemContent Category CustSkin-ItemContent\"><\div>").appendTo(leftCol);
@@ -152,15 +166,19 @@ function layoutCategoryDOM() {
                 $("<div class=\"Meta CustSkin-LatestCommenter\"><\div>").appendTo(rightDiscussionDiv);
                 var rightMetaDiv = rightDiscussionDiv.getElementsByClassName('Meta')[0];
 
+                
                 //This fails on the NAS section
                 try {
+                    var lastCommentUser = lastDiscussionTitle.getElementsByTagName('a')[1];
                     /*Title of last thread*/
                     $(lastDiscussionTitle.getElementsByTagName('a')[0]).appendTo(rightMetaDiv);
-                    /*Last replied user*/
-                    $(lastDiscussionTitle.getElementsByTagName('a')[1]).appendTo(rightMetaDiv);
+                    $(lastDiscussionTitle).remove();
                 } catch(e) {
                     //Do nothing   
                 }
+                $(lastCommentDate).addClass('CustSkin-Username');
+                lastCommentUser.text = lastCommentUser.text + " ";
+                $(lastCommentUser).prependTo(lastCommentDate);
                 $(lastCommentDate).appendTo(rightMetaDiv);
                 $(meta).appendTo(leftDiscussionDiv);
                 $(itemContent).remove();
