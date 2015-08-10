@@ -1,21 +1,21 @@
 // ==UserScript==
 // @name         Classic Forum for Plex
 // @namespace    forums.plex.tv
-// @version      0.6
+// @version      0.7
 // @description  The JavaScript portion of the skin. Find the CSS portion at https://userstyles.org/styles/117161/classic-forum-for-plex
 // @author       Justin Vanderhooft
 // @match        forums.plex.tv/*
 // @grant        none
+// @updateURL    https://greasyfork.org/scripts/11407-classic-forum-for-plex/code/Classic%20Forum%20for%20Plex.user.js
 // @downlodURL   https://greasyfork.org/scripts/11407-classic-forum-for-plex/code/Classic%20Forum%20for%20Plex.user.js
 // ==/UserScript==
 
 //Variables used by everything
 var localstorage = window['localStorage'];
-buildCache();
 setCustomClasses();
 layoutDiscussionDOM();
 layoutCategoryDOM();
-
+buildCache();
 
 /*var commentElements = document.getElementsByClassName('Item ItemComment Online');
 for(var i = 0; i < commentElements.length; i++)
@@ -73,6 +73,7 @@ function layoutDiscussionDOM() {
                 var username = lastComment.getElementsByTagName('a')[0].text
                 var image = localstorage[username];
                 if(image == undefined) {
+                    addImageToCache(username);
                     $("<a title="+username+ " href=\"/profile/"+username+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\"http://res.cloudinary.com/dnf4z4krv/image/upload/c_scale,w_48/v1438946227/plex-logo_hpqjpc.jpg\" alt=\""+username+"\" class=\"ProfilePhoto CustSkin-ProfilePhoto CustSkin-DefaultProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
                     console.log("no image for this user displaying default instead: " + username);   
                 } else {
@@ -145,8 +146,9 @@ function layoutCategoryDOM() {
                     var username = lastDiscussionTitle.getElementsByTagName('a')[1].text
                     var image = localstorage[username];
                     if(image == undefined) {
+                        addImageToCache(username);
                         $("<a title="+username+ " href=\"/profile/"+username+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\"http://res.cloudinary.com/dnf4z4krv/image/upload/c_scale,w_48/v1438946227/plex-logo_hpqjpc.jpg\" alt=\""+username+"\" class=\"ProfilePhoto CustSkin-ProfilePhoto CustSkin-DefaultProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
-                        console.log("no image for this user displaying default instead: " + username);   
+                        console.log("no image for this user displaying default instead: " + username);                         
                     } else {
                         $("<a title="+username+ " href=\"/profile/"+username+"\" class=\"Index Photo PhotoWrap CustSkin-PhotoWrap Online\"><img src=\""+localstorage[username]+"\" alt=\""+username+"\" class=\"ProfilePhoto CustSkin-ProfilePhoto ProfilePhotoMedium\"></a>").appendTo(rightCol);
                     }
@@ -166,7 +168,7 @@ function layoutCategoryDOM() {
                 $("<div class=\"Meta CustSkin-LatestCommenter\"><\div>").appendTo(rightDiscussionDiv);
                 var rightMetaDiv = rightDiscussionDiv.getElementsByClassName('Meta')[0];
 
-                
+
                 //This fails on the NAS section
                 try {
                     var lastCommentUser = lastDiscussionTitle.getElementsByTagName('a')[1];
@@ -192,9 +194,25 @@ function buildCache() {
     //Setup local storage so we can store a map of usernames and avatars
     var profilePhotos = document.getElementsByClassName('ProfilePhoto ProfilePhotoMedium');
     for(var i = 0; i < profilePhotos.length; i++) {
-        var imgUrl = profilePhotos[i].src;
-        var username = profilePhotos[i].alt;
-        localstorage[username] = imgUrl;
+        if($(profilePhotos[i]).hasClass('CustSkin-ProfilePhoto')) {
+            var imgUrl = profilePhotos[i].src;
+            var username = profilePhotos[i].alt;
+            localstorage[username] = imgUrl;
+        }
     }
     console.log("There are " + localstorage.length + " urls cached");
 }
+
+function addImageToCache(username){
+    $.get("https://forums.plex.tv/profile/" + username, function( page ) {
+        console.log("/profile/" + username);
+        var profilePhotos = $.parseHTML(page);
+        var imgSrc = $(profilePhotos);
+        imgSrc = $(imgSrc).find('.ProfilePhotoLarge').attr('src');
+        console.log(imgSrc);
+        localstorage[username] = imgSrc;
+    },'html');
+
+    console.log("Added " + username + "'s image to the cache");
+}
+
