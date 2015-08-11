@@ -28,10 +28,10 @@ div.PageControls a.Next {background-color: #F2F2F2; border: #323232; color: #ff8
 .CategoryHeading {background: #5F5F5F !important; position:relative; z-index:800}
 .ItemContent.Category {color: #F2F2F2 !important}
 .DataList .Item {border: 1px solid #323232; background-color: #F2F2F2;}
-.Discussions .Item {opacity:0.8}
-.Discussions .Unread,.Discussions .New {opacity:.9}
-.CategoryList .Item {opacity:0.8}
-.CategoryList .Unread,.Discussions .New {opacity:.9}
+  .Discussions .Item {background-color: rgba(242, 242, 242, .8);}
+.Discussions .Unread,.Discussions .New {background-color: rgba(242, 242, 242, /*[[opacity]]*/);}
+.CategoryList .Item {background-color: rgba(242, 242, 242, .8);}
+.CategoryList .Unread,.Discussions .New {background-color: rgba(242, 242, 242, /*[[opacity]]*/);}
 .DataList .Item a {color: #5F5F5F !important}
 .DataList .Item .AuthorWrap a {color: #F2F2F2 !important}
 .DataList .Item .Signature a {color: #ff8a00 !important}
@@ -101,8 +101,7 @@ div.CategoryFilter {display:/*[[catfilter]]*/}
 div.Box.Tags {display:/*[[tagfilter]]*/}
 div.WhosOnline {display:/*[[onlinefilter]]*/}
 
-.ProfilePhoto, .Discussion .Author .ProfilePhoto, body.Rank-Employee .MeBox .ProfilePhoto { border-radius: /*[[photoradius]]*/ !important; }
-/*.Online .Author .PhotoWrap {padding:3px; background-color:/*[[onlinecolor]]*/}*/
+.Activity-Registration .ProfilePhoto, .Activity-WallPost .ProfilePhoto, .OnlineUserWrap .ProfilePhoto, .ItemDiscussion .ProfilePhoto, .Discussion .Author .ProfilePhoto, .Leaderboard .ProfilePhoto, .MeBox > .PhotoWrap > .ProfilePhoto, .Tile .ProfilePhoto {border-radius: /*[[photoradius]]*/ !important; }
 
 .bodybox-wrap {background-color:#F2F2F2; padding:8px; border-radius:5px}
 .editor {background-color:#F2F2F2; color:#777}
@@ -141,12 +140,16 @@ div.AuthorWrap a.PhotoWrap.Online:after {content: "Online"; text-align:center; f
 .quotes {color:#F2F2F2}
 .signature {color:#F2F2F2}
 .preferences h2 {color:#F2F2F2}
+.Messages h4 {color:#F2F2F2}
+.Email {color:#F2F2F2}
 table.PreferenceGroup {background-color:#F2F2F2} 
 
+/* Flyout menus */
+/*.Flyout .Item {border-color: #777}*/
+
 /* Section reserved for custom elements created by javascript plugins */
-.CustSkin-LeftDiscussionColumn {float:left; width:75%;padding-top:0px}
-.CustSkin-RightDiscussionColumn {float:right; width:25%; padding-top:0px}
-.Email {color:#F2F2F2}
+.CustSkin-LeftDiscussionColumn {float:left; width:65%;padding-top:0px}
+.CustSkin-RightDiscussionColumn {float:right; width:35%; padding-top:0px}
 
 .CustSkin-PhotoWrap .ProfilePhoto {vertical-align:middle; float:left !important; padding:1px; background-color:#777}
 .CustSkin-RightDiscussionColumn .Discussion.ItemContent {display:inline-flex; padding-left:10px}
@@ -154,8 +157,12 @@ table.PreferenceGroup {background-color:#F2F2F2}
 
 .CustSkin-LatestCommenter {float:left; padding-top:1px !important; padding-left:5px}
 .CustSkin-PhotoWrap {display:block !important; padding-top: 20px}
+.CustSkin-DefaultProfilePhoto {opacity:0.5}
+.Discussions .CustSkin-PhotoWrap {display:block !important; padding-top: 7px}
 
 .CustSkin-Remove {display:none}
 .CustSkin-ItemContent {padding-left:0px !important}
 .CustSkin-Tag {margin-right:3px}
+
+.CustSkin-RightDiscussionColumn .CustSkin-ItemContent .CustSkin-Username a {color:#ff8a00 !important}
 }
