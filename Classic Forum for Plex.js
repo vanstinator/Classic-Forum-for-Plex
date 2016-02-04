@@ -1,17 +1,18 @@
 // ==UserScript==
 // @name         Classic Forum for Plex
 // @namespace    forums.plex.tv
-// @version      0.7
+// @version      0.8
 // @description  The JavaScript portion of the skin. Find the CSS portion at https://userstyles.org/styles/117161/classic-forum-for-plex
 // @author       Justin Vanderhooft
 // @match        forums.plex.tv/*
 // @grant        none
-// @updateURL    https://greasyfork.org/scripts/11407-classic-forum-for-plex/code/Classic%20Forum%20for%20Plex.user.js
 // @downlodURL   https://greasyfork.org/scripts/11407-classic-forum-for-plex/code/Classic%20Forum%20for%20Plex.user.js
 // ==/UserScript==
 
 //Variables used by everything
 var localstorage = window['localStorage'];
+var placeholderImg = 'http://res.cloudinary.com/dnf4z4krv/image/upload/c_scale,w_48/v1438946227/plex-logo_hpqjpc.jpg';
+var undefinedImg = 'http://';
 setCustomClasses();
 layoutDiscussionDOM();
 layoutCategoryDOM();
@@ -194,13 +195,22 @@ function buildCache() {
     //Setup local storage so we can store a map of usernames and avatars
     var profilePhotos = document.getElementsByClassName('ProfilePhoto ProfilePhotoMedium');
     for(var i = 0; i < profilePhotos.length; i++) {
-        if($(profilePhotos[i]).hasClass('CustSkin-ProfilePhoto')) {
+        if(!$(profilePhotos[i]).hasClass('CustSkin-ProfilePhoto')) {
             var imgUrl = profilePhotos[i].src;
             var username = profilePhotos[i].alt;
             localstorage[username] = imgUrl;
         }
     }
+    //cleanCache();
     console.log("There are " + localstorage.length + " urls cached");
+}
+
+function cleanCache() {
+    for(var i = 0; i < localstorage.length; i++) {
+        if (localstorage[localstorage.key(i)] == placeholderImg || localstorage[localstorage.key(i)] == undefinedImg) {
+            localstorage.removeItem(localstorage.key(i));
+        }
+    }
 }
 
 function addImageToCache(username){
